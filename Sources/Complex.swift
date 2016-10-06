@@ -33,7 +33,7 @@ extension Float {
 }
 
 
-public struct Complex<T:FloatingPointArithmeticType> : MatrixType, FloatLiteralConvertible, IntegerLiteralConvertible, ArrayLiteralConvertible {
+public struct Complex<T:FloatingPointArithmeticType> : MatrixType, ExpressibleByFloatLiteral, ExpressibleByIntegerLiteral, ExpressibleByArrayLiteral {
 
     public typealias Element = T
 
@@ -63,9 +63,9 @@ public struct Complex<T:FloatingPointArithmeticType> : MatrixType, FloatLiteralC
 
     public var debugDescription: String {
         if imag < 0 {
-            return String(self.dynamicType) + "(\(real)\(imag)i)"
+            return String(describing: type(of: self)) + "(\(real)\(imag)i)"
         } else {
-            return String(self.dynamicType) + "(\(real)+\(imag)i)"
+            return String(describing: type(of: self)) + "(\(real)+\(imag)i)"
         }
     }
 
@@ -113,21 +113,6 @@ public struct Complex<T:FloatingPointArithmeticType> : MatrixType, FloatLiteralC
         self.imag = T(x.imag)
     }
 
-    // Init from polar components
-    public init(rho:T, theta:T) {
-        self.real = rho * SGLMath.SGLcos(theta)
-        self.imag = rho * SGLMath.SGLsin(theta)
-
-    }
-
-    public var abs:T {
-        return SGLMath.SGLsqrt(real * real + imag * imag)
-    }
-
-    public var arg:T {
-        return SGLMath.SGLatan(imag, real)
-    }
-
     public var norm:T {
         let a = abs
         return a * a
@@ -137,36 +122,67 @@ public struct Complex<T:FloatingPointArithmeticType> : MatrixType, FloatLiteralC
         return Complex<T>(real, -imag)
     }
 
-    public init (_ x:Complex<T>, _ op: @noescape (_:T) -> T) {
+    public init (_ x:Complex<T>, _ op: (_:T) -> T) {
         self.real = op(x[0])
         self.imag = op(x[1])
     }
 
-    public init (_ s:T, _ x:Complex<T>, _ op: @noescape (_:T, _:T) -> T) {
+    public init (_ s:T, _ x:Complex<T>, _ op: (_:T, _:T) -> T) {
         self.real = op(s, x[0])
         self.imag = op(s, x[1])
     }
 
-    public init (_ x:Complex<T>, _ s:T, _ op: @noescape (_:T, _:T) -> T) {
+    public init (_ x:Complex<T>, _ s:T, _ op: (_:T, _:T) -> T) {
         self.real = op(x[0], s)
         self.imag = op(x[1], s)
     }
 
-    public init (_ x1:Complex<T>, _ x2:Complex<T>, _ op: @noescape (_:T, _:T) -> T) {
+    public init (_ x1:Complex<T>, _ x2:Complex<T>, _ op: (_:T, _:T) -> T) {
         self.real = op(x1[0], x2[0])
         self.imag = op(x1[1], x2[1])
     }
+}
 
+public extension Complex where T == Float {
+    // Init from polar components
+    public init(rho: T, theta: T) {
+        self.real = rho * cosf(theta)
+        self.imag = rho * sinf(theta)
+    }
+    
+    public var abs:T {
+        return sqrtf(real * real + imag * imag)
+    }
+    
+    public var arg:T {
+        return atan2f(imag, real)
+    }
+}
+
+public extension Complex where T == Double {
+    // Init from polar components
+    public init(rho: T, theta: T) {
+        self.real = rho * cos(theta)
+        self.imag = rho * sin(theta)
+    }
+    
+    public var abs:T {
+        return sqrt(real * real + imag * imag)
+    }
+    
+    public var arg:T {
+        return atan2(imag, real)
+    }
 }
 
 
-@warn_unused_result
+
 public func==<T:FloatingPointArithmeticType>(x:Complex<T>, y:Complex<T>) -> Bool {
     return x.real == y.real && x.imag == y.imag
 }
 
 
-@warn_unused_result
+
 public func *<T:FloatingPointArithmeticType>(x1: Complex<T>, x2: Complex<T>) -> Complex<T> {
     return Complex<T>(
         x1.real * x2.real - x1.imag * x2.imag,
@@ -175,7 +191,7 @@ public func *<T:FloatingPointArithmeticType>(x1: Complex<T>, x2: Complex<T>) -> 
 }
 
 
-@warn_unused_result
+
 public func /<T:FloatingPointArithmeticType>(x1: Complex<T>, x2: Complex<T>) -> Complex<T> {
     let cd:T = x2.real * x2.real + x2.imag * x2.imag
     let r:T = x1.real * x2.real + x1.imag * x2.imag
@@ -184,7 +200,7 @@ public func /<T:FloatingPointArithmeticType>(x1: Complex<T>, x2: Complex<T>) -> 
 }
 
 
-@warn_unused_result
+
 public func /<T:FloatingPointArithmeticType>(x1: Complex<T>, x2: T) -> Complex<T> {
     return Complex<T>(
         x1.real / x2,
@@ -193,7 +209,7 @@ public func /<T:FloatingPointArithmeticType>(x1: Complex<T>, x2: T) -> Complex<T
 }
 
 
-@warn_unused_result
+
 public func /<T:FloatingPointArithmeticType>(x1: T, x2: Complex<T>) -> Complex<T> {
     let cd = x2.real * x2.real + x2.imag * x2.imag
     return Complex<T>(

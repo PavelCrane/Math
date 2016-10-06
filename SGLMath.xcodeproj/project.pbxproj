@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E9E66E201CD1739E0090710A /* glsl.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/glsl.swift /* glsl.swift */; };
-		__src_cc_ref_Sources/Complex.swift /* Complex.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/Complex.swift /* Complex.swift */; };
+		E98126F31DA5E86600BE49F1 /* glsl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E98126F21DA5E86600BE49F1 /* glsl.swift */; };
+		E98126F51DA5E87B00BE49F1 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = E98126F41DA5E87B00BE49F1 /* Operators.swift */; };
 		__src_cc_ref_Sources/Internal.swift /* Internal.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/Internal.swift /* Internal.swift */; };
 		__src_cc_ref_Sources/Matrix2x2.swift /* Matrix2x2.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/Matrix2x2.swift /* Matrix2x2.swift */; };
 		__src_cc_ref_Sources/Matrix2x3.swift /* Matrix2x3.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/Matrix2x3.swift /* Matrix2x3.swift */; };
@@ -19,7 +19,6 @@
 		__src_cc_ref_Sources/Matrix4x2.swift /* Matrix4x2.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/Matrix4x2.swift /* Matrix4x2.swift */; };
 		__src_cc_ref_Sources/Matrix4x3.swift /* Matrix4x3.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/Matrix4x3.swift /* Matrix4x3.swift */; };
 		__src_cc_ref_Sources/Matrix4x4.swift /* Matrix4x4.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/Matrix4x4.swift /* Matrix4x4.swift */; };
-		__src_cc_ref_Sources/Operators.swift /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/Operators.swift /* Operators.swift */; };
 		__src_cc_ref_Sources/Protocols.swift /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/Protocols.swift /* Protocols.swift */; };
 		__src_cc_ref_Sources/Quaternion.swift /* Quaternion.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/Quaternion.swift /* Quaternion.swift */; };
 		__src_cc_ref_Sources/Swizzle.swift /* Swizzle.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/Swizzle.swift /* Swizzle.swift */; };
@@ -33,6 +32,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E98126F21DA5E86600BE49F1 /* glsl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = glsl.swift; sourceTree = "<group>"; };
+		E98126F41DA5E87B00BE49F1 /* Operators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
 		__PBXFileRef_Package.swift /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Package.swift; path = "/Users/Thomas/Library/Mobile Documents/com~apple~CloudDocs/University/COMP 308 - Computer Graphics/Math/Package.swift"; sourceTree = "<group>"; };
 		__PBXFileRef_Sources/Complex.swift /* Complex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Complex.swift; sourceTree = "<group>"; };
 		__PBXFileRef_Sources/Internal.swift /* Internal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Internal.swift; sourceTree = "<group>"; };
@@ -45,7 +46,6 @@
 		__PBXFileRef_Sources/Matrix4x2.swift /* Matrix4x2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matrix4x2.swift; sourceTree = "<group>"; };
 		__PBXFileRef_Sources/Matrix4x3.swift /* Matrix4x3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matrix4x3.swift; sourceTree = "<group>"; };
 		__PBXFileRef_Sources/Matrix4x4.swift /* Matrix4x4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matrix4x4.swift; sourceTree = "<group>"; };
-		__PBXFileRef_Sources/Operators.swift /* Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
 		__PBXFileRef_Sources/Protocols.swift /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		__PBXFileRef_Sources/Quaternion.swift /* Quaternion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quaternion.swift; sourceTree = "<group>"; };
 		__PBXFileRef_Sources/Swizzle.swift /* Swizzle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swizzle.swift; sourceTree = "<group>"; };
@@ -56,7 +56,6 @@
 		__PBXFileRef_Sources/Vector4.swift /* Vector4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vector4.swift; sourceTree = "<group>"; };
 		__PBXFileRef_Sources/Vector4b.swift /* Vector4b.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vector4b.swift; sourceTree = "<group>"; };
 		__PBXFileRef_Sources/glm.swift /* glm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = glm.swift; sourceTree = "<group>"; };
-		__PBXFileRef_Sources/glsl.swift /* glsl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = glsl.swift; sourceTree = "<group>"; };
 		"_____Product_SGLMath" /* libSGLMath.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; path = libSGLMath.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -110,7 +109,6 @@
 			children = (
 				__PBXFileRef_Sources/Complex.swift /* Complex.swift */,
 				__PBXFileRef_Sources/glm.swift /* glm.swift */,
-				__PBXFileRef_Sources/glsl.swift /* glsl.swift */,
 				__PBXFileRef_Sources/Internal.swift /* Internal.swift */,
 				__PBXFileRef_Sources/Matrix2x2.swift /* Matrix2x2.swift */,
 				__PBXFileRef_Sources/Matrix2x3.swift /* Matrix2x3.swift */,
@@ -121,8 +119,9 @@
 				__PBXFileRef_Sources/Matrix4x2.swift /* Matrix4x2.swift */,
 				__PBXFileRef_Sources/Matrix4x3.swift /* Matrix4x3.swift */,
 				__PBXFileRef_Sources/Matrix4x4.swift /* Matrix4x4.swift */,
-				__PBXFileRef_Sources/Operators.swift /* Operators.swift */,
 				__PBXFileRef_Sources/Protocols.swift /* Protocols.swift */,
+				E98126F21DA5E86600BE49F1 /* glsl.swift */,
+				E98126F41DA5E87B00BE49F1 /* Operators.swift */,
 				__PBXFileRef_Sources/Quaternion.swift /* Quaternion.swift */,
 				__PBXFileRef_Sources/Swizzle.swift /* Swizzle.swift */,
 				__PBXFileRef_Sources/Vector2.swift /* Vector2.swift */,
@@ -169,6 +168,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 9999;
+				TargetAttributes = {
+					"______Target_SGLMath" = {
+						LastSwiftMigration = 0800;
+					};
+				};
 			};
 			buildConfigurationList = "___RootConfs_" /* Build configuration list for PBXProject "SGLMath" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -192,7 +196,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				__src_cc_ref_Sources/Complex.swift /* Complex.swift in Sources */,
 				__src_cc_ref_Sources/glm.swift /* glm.swift in Sources */,
 				__src_cc_ref_Sources/Internal.swift /* Internal.swift in Sources */,
 				__src_cc_ref_Sources/Matrix2x2.swift /* Matrix2x2.swift in Sources */,
@@ -203,15 +206,15 @@
 				__src_cc_ref_Sources/Matrix3x4.swift /* Matrix3x4.swift in Sources */,
 				__src_cc_ref_Sources/Matrix4x2.swift /* Matrix4x2.swift in Sources */,
 				__src_cc_ref_Sources/Matrix4x3.swift /* Matrix4x3.swift in Sources */,
+				E98126F31DA5E86600BE49F1 /* glsl.swift in Sources */,
 				__src_cc_ref_Sources/Matrix4x4.swift /* Matrix4x4.swift in Sources */,
-				__src_cc_ref_Sources/Operators.swift /* Operators.swift in Sources */,
 				__src_cc_ref_Sources/Protocols.swift /* Protocols.swift in Sources */,
 				__src_cc_ref_Sources/Quaternion.swift /* Quaternion.swift in Sources */,
-				E9E66E201CD1739E0090710A /* glsl.swift in Sources */,
 				__src_cc_ref_Sources/Swizzle.swift /* Swizzle.swift in Sources */,
 				__src_cc_ref_Sources/Vector2.swift /* Vector2.swift in Sources */,
 				__src_cc_ref_Sources/Vector2b.swift /* Vector2b.swift in Sources */,
 				__src_cc_ref_Sources/Vector3.swift /* Vector3.swift in Sources */,
+				E98126F51DA5E87B00BE49F1 /* Operators.swift in Sources */,
 				__src_cc_ref_Sources/Vector3b.swift /* Vector3b.swift in Sources */,
 				__src_cc_ref_Sources/Vector4.swift /* Vector4.swift in Sources */,
 				__src_cc_ref_Sources/Vector4b.swift /* Vector4b.swift in Sources */,
@@ -236,6 +239,7 @@
 				PRODUCT_NAME = "lib$(TARGET_NAME)";
 				SWIFT_DISABLE_SAFETY_CHECKS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -254,6 +258,7 @@
 				PRODUCT_NAME = "lib$(TARGET_NAME)";
 				SWIFT_DISABLE_SAFETY_CHECKS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};

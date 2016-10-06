@@ -23,6 +23,12 @@
 // Portability for Christophe Riccio's glm
 // http://glm.g-truc.net/
 
+#if os(macOS)
+import Darwin
+#else
+import Glibc
+#endif
+
 
 // Options may be changed at run time.
 // This is global and not thread local.
@@ -60,7 +66,6 @@ public typealias umat4x3 = Matrix4x3<UInt32>
 public typealias imat4x4 = Matrix4x4<Int32>
 public typealias umat4x4 = Matrix4x4<UInt32>
 
-
 extension SGLMath
 {
 
@@ -74,34 +79,76 @@ extension SGLMath
     }
 
 
-    public static func rotate<T:FloatingPointArithmeticType>
-        (_ m:Matrix4x4<T>, _ angle:T, _ v:Vector3<T>) -> Matrix4x4<T>
+    public static func rotate
+        (_ m:Matrix4x4<Float>, _ angle:Float, _ v:Vector3<Float>) -> Matrix4x4<Float>
     {
         let a = angle
-        let c = SGLMath.SGLcos(a)
-        let s = SGLMath.SGLsin(a)
+        let c = cosf(a)
+        let s = sinf(a)
         let axis = normalize(v)
         let temp = (1-c) * axis
-        var r00:T = c
+        var r00 = c
             r00 += temp[0] * axis[0]
-        var r01:T = temp[0] * axis[1]
+        var r01 = temp[0] * axis[1]
             r01 += s * axis[2]
-        var r02:T = temp[0] * axis[2]
+        var r02 = temp[0] * axis[2]
             r02 -= s * axis[1]
-        var r10:T = temp[1] * axis[0]
+        var r10 = temp[1] * axis[0]
             r10 -= s * axis[2]
-        var r11:T = c
+        var r11 = c
             r11 += temp[1] * axis[1]
-        var r12:T = temp[1] * axis[2]
+        var r12 = temp[1] * axis[2]
             r12 += s * axis[0]
-        var r20:T = temp[2] * axis[0]
+        var r20 = temp[2] * axis[0]
             r20 += s * axis[1]
-        var r21:T = temp[2] * axis[1]
+        var r21 = temp[2] * axis[1]
             r21 -= s * axis[0]
-        var r22:T = c
+        var r22 = c
             r22 += temp[2] * axis[2]
 
-        var Result = Matrix4x4<T>(
+        var Result = Matrix4x4<Float>(
+            m[0] * r00,
+            m[0] * r10,
+            m[0] * r20,
+            m[3]
+        )
+        Result[0] += m[1] * r01
+        Result[0] += m[2] * r02
+        Result[1] += m[1] * r11
+        Result[1] += m[2] * r12
+        Result[2] += m[1] * r21
+        Result[2] += m[2] * r22
+        return Result
+    }
+    
+    public static func rotate
+        (_ m:Matrix4x4<Double>, _ angle:Double, _ v:Vector3<Double>) -> Matrix4x4<Double>
+    {
+        let a = angle
+        let c = cos(a)
+        let s = sin(a)
+        let axis = normalize(v)
+        let temp = (1-c) * axis
+        var r00 = c
+        r00 += temp[0] * axis[0]
+        var r01 = temp[0] * axis[1]
+        r01 += s * axis[2]
+        var r02 = temp[0] * axis[2]
+        r02 -= s * axis[1]
+        var r10 = temp[1] * axis[0]
+        r10 -= s * axis[2]
+        var r11 = c
+        r11 += temp[1] * axis[1]
+        var r12 = temp[1] * axis[2]
+        r12 += s * axis[0]
+        var r20 = temp[2] * axis[0]
+        r20 += s * axis[1]
+        var r21 = temp[2] * axis[1]
+        r21 -= s * axis[0]
+        var r22 = c
+        r22 += temp[2] * axis[2]
+        
+        var Result = Matrix4x4<Double>(
             m[0] * r00,
             m[0] * r10,
             m[0] * r20,
@@ -117,37 +164,37 @@ extension SGLMath
     }
 
 
-    public static func rotateSlow<T:FloatingPointArithmeticType>
-        (_ m:Matrix4x4<T>, _ angle:T, _ v:Vector3<T>) -> Matrix4x4<T>
+    public static func rotateSlow
+        (_ m:Matrix4x4<Float>, _ angle:Float, _ v:Vector3<Float>) -> Matrix4x4<Float>
     {
         let a = angle
-        let c = SGLMath.SGLcos(a)
-        let s = SGLMath.SGLsin(a)
+        let c = cosf(a)
+        let s = sinf(a)
 
         let axis = normalize(v)
 
-        var r00:T = c
+        var r00 = c
             r00 += (1 - c) * axis.x * axis.x
-        var r01:T = (1 - c) * axis.x * axis.y
+        var r01 = (1 - c) * axis.x * axis.y
             r01 += s * axis.z
-        var r02:T = (1 - c) * axis.x * axis.z
+        var r02 = (1 - c) * axis.x * axis.z
             r02 -= s * axis.y
 
-        var r10:T = (1 - c) * axis.y * axis.x
+        var r10 = (1 - c) * axis.y * axis.x
             r10 -= s * axis.z
-        var r11:T = c
+        var r11 = c
             r11 += (1 - c) * axis.y * axis.y
-        var r12:T = (1 - c) * axis.y * axis.z
+        var r12 = (1 - c) * axis.y * axis.z
             r12 += s * axis.x
 
-        var r20:T = (1 - c) * axis.z * axis.x
+        var r20 = (1 - c) * axis.z * axis.x
             r20 += s * axis.y
-        var r21:T = (1 - c) * axis.z * axis.y
+        var r21 = (1 - c) * axis.z * axis.y
             r21 -= s * axis.x
-        var r22:T = c
+        var r22 = c
             r22 += (1 - c) * axis.z * axis.z;
 
-        return Matrix4x4<T>(
+        return Matrix4x4(
             r00, r01, r02, 0,
             r10, r11, r12, 0,
             r20, r21, r22, 0,
@@ -155,7 +202,45 @@ extension SGLMath
         )
 
     }
-
+    
+    public static func rotateSlow
+        (_ m:Matrix4x4<Double>, _ angle:Double, _ v:Vector3<Double>) -> Matrix4x4<Double>
+    {
+        let a = angle
+        let c = cos(a)
+        let s = sin(a)
+        
+        let axis = normalize(v)
+        
+        var r00 = c
+        r00 += (1 - c) * axis.x * axis.x
+        var r01 = (1 - c) * axis.x * axis.y
+        r01 += s * axis.z
+        var r02 = (1 - c) * axis.x * axis.z
+        r02 -= s * axis.y
+        
+        var r10 = (1 - c) * axis.y * axis.x
+        r10 -= s * axis.z
+        var r11 = c
+        r11 += (1 - c) * axis.y * axis.y
+        var r12 = (1 - c) * axis.y * axis.z
+        r12 += s * axis.x
+        
+        var r20 = (1 - c) * axis.z * axis.x
+        r20 += s * axis.y
+        var r21 = (1 - c) * axis.z * axis.y
+        r21 -= s * axis.x
+        var r22 = c
+        r22 += (1 - c) * axis.z * axis.z;
+        
+        return Matrix4x4(
+            r00, r01, r02, 0,
+            r10, r11, r12, 0,
+            r20, r21, r22, 0,
+            0,   0,   0,   1
+        )
+        
+    }
 
     public static func scale<T:ArithmeticType>(_ m:Matrix4x4<T>, _ v:Vector3<T>) -> Matrix4x4<T>
     {
@@ -322,8 +407,18 @@ extension SGLMath
     }
 
 
-    public static func perspective<T:FloatingPointArithmeticType>
-        (_ fovy:T, _ aspect:T, _ zNear:T, _ zFar:T) -> Matrix4x4<T>
+    public static func perspective
+        (_ fovy: Float, _ aspect: Float, _ zNear: Float, _ zFar: Float) -> Matrix4x4<Float>
+    {
+        if glmLeftHanded {
+            return perspectiveLH(fovy, aspect, zNear, zFar)
+        } else {
+            return perspectiveRH(fovy, aspect, zNear, zFar)
+        }
+    }
+    
+    public static func perspective
+        (_ fovy: Double, _ aspect: Double, _ zNear: Double, _ zFar: Double) -> Matrix4x4<Double>
     {
         if glmLeftHanded {
             return perspectiveLH(fovy, aspect, zNear, zFar)
@@ -333,17 +428,17 @@ extension SGLMath
     }
 
 
-    public static func perspectiveLH<T:FloatingPointArithmeticType>
-        (_ fovy:T, _ aspect:T, _ zNear:T, _ zFar:T) -> Matrix4x4<T>
+    public static func perspectiveLH
+        (_ fovy:Float, _ aspect:Float, _ zNear:Float, _ zFar:Float) -> Matrix4x4<Float>
     {
         assert(aspect > 0)
 
-        let tanHalfFovy = SGLMath.SGLtan(fovy / 2)
+        let tanHalfFovy = tanf(fovy / 2)
 
-        let r00:T = 1 / (aspect * tanHalfFovy)
-        let r11:T = 1 / (tanHalfFovy)
+        let r00 = 1 / (aspect * tanHalfFovy)
+        let r11 = 1 / (tanHalfFovy)
 
-        var r22:T, r32:T
+        var r22 : Float, r32 : Float
         if glmDepthZeroToOne {
             r22 = zFar / (zFar - zNear)
             r32 = -(zFar * zNear) / (zFar - zNear)
@@ -353,27 +448,54 @@ extension SGLMath
             r32 /= (zFar - zNear)
         }
 
-        return Matrix4x4<T>(
+        return Matrix4x4(
             r00, 0,   0,   0,
             0,   r11, 0,   0,
             0,   0,   r22, 1,
             0,   0,   r32, 0
         )
-
+    }
+    
+    public static func perspectiveLH
+        (_ fovy:Double, _ aspect:Double, _ zNear:Double, _ zFar:Double) -> Matrix4x4<Double>
+    {
+        assert(aspect > 0)
+        
+        let tanHalfFovy = tan(fovy / 2)
+        
+        let r00 = 1 / (aspect * tanHalfFovy)
+        let r11 = 1 / (tanHalfFovy)
+        
+        var r22 : Double, r32 : Double
+        if glmDepthZeroToOne {
+            r22 = zFar / (zFar - zNear)
+            r32 = -(zFar * zNear) / (zFar - zNear)
+        } else {
+            r22 = (zFar + zNear) / (zFar - zNear)
+            r32 = -(2 * zFar * zNear)
+            r32 /= (zFar - zNear)
+        }
+        
+        return Matrix4x4(
+            r00, 0,   0,   0,
+            0,   r11, 0,   0,
+            0,   0,   r22, 1,
+            0,   0,   r32, 0
+        )
     }
 
 
-    public static func perspectiveRH<T:FloatingPointArithmeticType>
-        (_ fovy:T, _ aspect:T, _ zNear:T, _ zFar:T) -> Matrix4x4<T>
+    public static func perspectiveRH
+        (_ fovy:Double, _ aspect:Double, _ zNear:Double, _ zFar:Double) -> Matrix4x4<Double>
     {
         assert(aspect > 0)
 
-        let tanHalfFovy = SGLMath.SGLtan(fovy / 2)
+        let tanHalfFovy = tan(fovy / 2)
 
-        let r00:T = 1 / (aspect * tanHalfFovy)
-        let r11:T = 1 / (tanHalfFovy)
+        let r00 = 1 / (aspect * tanHalfFovy)
+        let r11 = 1 / (tanHalfFovy)
 
-        var r22:T, r32:T
+        var r22:Double, r32:Double
         if glmDepthZeroToOne {
             r22 = zFar / (zNear - zFar)
             r32 = -(zFar * zNear) / (zFar - zNear)
@@ -383,7 +505,35 @@ extension SGLMath
             r32 /= (zFar - zNear)
         }
 
-        return Matrix4x4<T>(
+        return Matrix4x4(
+            r00, 0,   0,   0,
+            0,   r11, 0,   0,
+            0,   0,   r22, -1,
+            0,   0,   r32, 0
+        )
+    }
+    
+    public static func perspectiveRH
+        (_ fovy:Float, _ aspect:Float, _ zNear:Float, _ zFar:Float) -> Matrix4x4<Float>
+    {
+        assert(aspect > 0)
+        
+        let tanHalfFovy = tanf(fovy / 2)
+        
+        let r00 = 1 / (aspect * tanHalfFovy)
+        let r11 = 1 / (tanHalfFovy)
+        
+        var r22:Float, r32:Float
+        if glmDepthZeroToOne {
+            r22 = zFar / (zNear - zFar)
+            r32 = -(zFar * zNear) / (zFar - zNear)
+        } else {
+            r22 = -(zFar + zNear) / (zFar - zNear)
+            r32 = -(2 * zFar * zNear)
+            r32 /= (zFar - zNear)
+        }
+        
+        return Matrix4x4(
             r00, 0,   0,   0,
             0,   r11, 0,   0,
             0,   0,   r22, -1,
@@ -392,8 +542,18 @@ extension SGLMath
     }
 
 
-    public static func perspectiveFov<T:FloatingPointArithmeticType>
-        (_ fov:T, _ width:T, _ height:T, _ zNear:T, _ zFar:T) -> Matrix4x4<T>
+    public static func perspectiveFov
+        (_ fov:Double, _ width:Double, _ height:Double, _ zNear:Double, _ zFar:Double) -> Matrix4x4<Double>
+    {
+        if glmLeftHanded {
+            return perspectiveFovLH(fov, width, height, zNear, zFar)
+        } else {
+            return perspectiveFovRH(fov, width, height, zNear, zFar)
+        }
+    }
+    
+    public static func perspectiveFov
+        (_ fov:Float, _ width:Float, _ height:Float, _ zNear:Float, _ zFar:Float) -> Matrix4x4<Float>
     {
         if glmLeftHanded {
             return perspectiveFovLH(fov, width, height, zNear, zFar)
@@ -403,17 +563,17 @@ extension SGLMath
     }
 
 
-    public static func perspectiveFovLH<T:FloatingPointArithmeticType>
-        (_ fov:T, _ width:T, _ height:T, _ zNear:T, _ zFar:T) -> Matrix4x4<T>
+    public static func perspectiveFovLH
+        (_ fov: Float, _ width:Float, _ height:Float, _ zNear:Float, _ zFar:Float) -> Matrix4x4<Float>
     {
         assert(fov > 0)
         assert(width > 0)
         assert(height > 0)
 
-        let r00:T = SGLMath.SGLcos(fov / 2) / SGLMath.SGLsin(fov / 2)
-        let r11:T = r00 * height / width
+        let r00:Float = cosf(fov / 2) / sinf(fov / 2)
+        let r11:Float = r00 * height / width
 
-        var r22:T, r32:T
+        var r22:Float, r32:Float
         if glmDepthZeroToOne {
             r22 = zFar / (zNear - zFar)
             r32 = -(zFar * zNear) / (zFar - zNear)
@@ -423,7 +583,7 @@ extension SGLMath
             r32 /= (zFar - zNear)
         }
 
-        return Matrix4x4<T>(
+        return Matrix4x4(
             r00, 0,   0,   0,
             0,   r11, 0,   0,
             0,   0,   r22, -1,
@@ -431,19 +591,48 @@ extension SGLMath
         )
 
     }
+    
+    public static func perspectiveFovLH
+        (_ fov: Double, _ width:Double, _ height:Double, _ zNear:Double, _ zFar:Double) -> Matrix4x4<Double>
+    {
+        assert(fov > 0)
+        assert(width > 0)
+        assert(height > 0)
+        
+        let r00:Double = cos(fov / 2) / sin(fov / 2)
+        let r11:Double = r00 * height / width
+        
+        var r22:Double, r32:Double
+        if glmDepthZeroToOne {
+            r22 = zFar / (zNear - zFar)
+            r32 = -(zFar * zNear) / (zFar - zNear)
+        } else {
+            r22 = -(zFar + zNear) / (zFar - zNear)
+            r32 = -(2 * zFar * zNear)
+            r32 /= (zFar - zNear)
+        }
+        
+        return Matrix4x4(
+            r00, 0,   0,   0,
+            0,   r11, 0,   0,
+            0,   0,   r22, -1,
+            0,   0,   r32, 0
+        )
+        
+    }
 
 
-    public static func perspectiveFovRH<T:FloatingPointArithmeticType>
-        (_ fov:T, _ width:T, _ height:T, _ zNear:T, _ zFar:T) -> Matrix4x4<T>
+    public static func perspectiveFovRH
+        (_ fov:Float, _ width:Float, _ height:Float, _ zNear:Float, _ zFar:Float) -> Matrix4x4<Float>
     {
         assert(fov > 0)
         assert(width > 0)
         assert(height > 0)
 
-        let r00:T = SGLMath.SGLcos(fov / 2) / SGLMath.SGLsin(fov / 2)
-        let r11:T = r00 * height / width
+        let r00:Float = cosf(fov / 2) / sinf(fov / 2)
+        let r11:Float = r00 * height / width
 
-        var r22:T, r32:T
+        var r22:Float, r32:Float
         if glmDepthZeroToOne {
             r22 = zFar / (zFar - zNear)
             r32 = -(zFar * zNear) / (zFar - zNear)
@@ -453,7 +642,36 @@ extension SGLMath
             r32 /= (zFar - zNear)
         }
 
-        return Matrix4x4<T>(
+        return Matrix4x4(
+            r00, 0,   0,   0,
+            0,   r11, 0,   0,
+            0,   0,   r22, 1,
+            0,   0,   r32, 0
+        )
+    }
+    
+    
+    public static func perspectiveFovRH
+        (_ fov:Double, _ width:Double, _ height:Double, _ zNear:Double, _ zFar:Double) -> Matrix4x4<Double>
+    {
+        assert(fov > 0)
+        assert(width > 0)
+        assert(height > 0)
+        
+        let r00:Double = cos(fov / 2) / sin(fov / 2)
+        let r11:Double = r00 * height / width
+        
+        var r22:Double, r32:Double
+        if glmDepthZeroToOne {
+            r22 = zFar / (zFar - zNear)
+            r32 = -(zFar * zNear) / (zFar - zNear)
+        } else {
+            r22 = (zFar + zNear) / (zFar - zNear)
+            r32 = -(2 * zFar * zNear)
+            r32 /= (zFar - zNear)
+        }
+        
+        return Matrix4x4(
             r00, 0,   0,   0,
             0,   r11, 0,   0,
             0,   0,   r22, 1,
@@ -461,9 +679,21 @@ extension SGLMath
         )
     }
 
+    
 
-    public static func infinitePerspective<T:FloatingPointArithmeticType>
-        (_ fovy:T, _ aspect:T, _ zNear:T, _ ep:T = 0) -> Matrix4x4<T>
+
+    public static func infinitePerspective
+        (_ fovy:Double, _ aspect:Double, _ zNear:Double, _ ep:Double = 0) -> Matrix4x4<Double>
+    {
+        if glmLeftHanded {
+            return infinitePerspectiveLH(fovy, aspect, zNear, ep)
+        } else {
+            return infinitePerspectiveRH(fovy, aspect, zNear, ep)
+        }
+    }
+
+    public static func infinitePerspective
+        (_ fovy:Float, _ aspect:Float, _ zNear:Float, _ ep:Float = 0) -> Matrix4x4<Float>
     {
         if glmLeftHanded {
             return infinitePerspectiveLH(fovy, aspect, zNear, ep)
@@ -473,34 +703,27 @@ extension SGLMath
     }
 
 
-    public static func infinitePerspectiveLH<T:FloatingPointArithmeticType>
-        (_ fovy:T, _ aspect:T, _ zNear:T, _ ep:T = 0) -> Matrix4x4<T>
+    public static func infinitePerspectiveLH
+        (_ fovy:Double, _ aspect:Double, _ zNear:Double, _ ep:Double = 0) -> Matrix4x4<Double>
     {
-        let range:T = SGLMath.SGLtan(fovy / 2) * zNear
-        let left:T = -range * aspect
-        let right:T = range * aspect
-        let bottom:T = -range
-        let top:T = range;
+        let range = tan(fovy / 2) * zNear
+        let left = -range * aspect
+        let right = range * aspect
+        let bottom = -range
+        let top = range;
 
-        let r00:T = (2 * zNear) / (right - left)
-        let r11:T = (2 * zNear) / (top - bottom)
-        let r32:T = ep - (2 * zNear)
+        let r00 = (2 * zNear) / (right - left)
+        let r11 = (2 * zNear) / (top - bottom)
+        let r32 = ep - (2 * zNear)
 
-        let r22:T
+        let r22:Double
         if ep == 0 {
-            switch(ep) {
-            case is Float:
-                r22 = T(0x1.fffffep-1)
-            case is Double:
-                r22 = T(0x1.fffffffffffffp-1)
-            default:
-                preconditionFailure()
-            }
+            r22 = 0x1.fffffffffffffp-1
         } else {
             r22 = 1 - ep
         }
 
-        return Matrix4x4<T>(
+        return Matrix4x4(
             r00, 0,   0,   0,
             0,   r11, 0,   0,
             0,   0,   r22, 1,
@@ -508,42 +731,91 @@ extension SGLMath
         )
 
     }
-
-
-    public static func infinitePerspectiveRH<T:FloatingPointArithmeticType>
-        (_ fovy:T, _ aspect:T, _ zNear:T, _ ep:T = 0) -> Matrix4x4<T>
+    
+    public static func infinitePerspectiveLH
+        (_ fovy:Float, _ aspect:Float, _ zNear:Float, _ ep:Float = 0) -> Matrix4x4<Float>
     {
-        let range:T = SGLMath.SGLtan(fovy / 2) * zNear
-        let left:T = -range * aspect
-        let right:T = range * aspect
-        let bottom:T = -range
-        let top:T = range;
-
-        let r00:T = (2 * zNear) / (right - left)
-        let r11:T = (2 * zNear) / (top - bottom)
-        let r32:T = ep - (2 * zNear)
-
-        let r22:T
+        let range = tanf(fovy / 2) * zNear
+        let left = -range * aspect
+        let right = range * aspect
+        let bottom = -range
+        let top = range;
+        
+        let r00 = (2 * zNear) / (right - left)
+        let r11 = (2 * zNear) / (top - bottom)
+        let r32 = ep - (2 * zNear)
+        
+        let r22:Float
         if ep == 0 {
-            switch(ep) {
-            case is Float:
-                r22 = T(-0x1.fffffep-1)
-            case is Double:
-                r22 = T(-0x1.fffffffffffffp-1)
-            default:
-                preconditionFailure()
-            }
+            r22 = 0x1.fffffep-1
+        } else {
+            r22 = 1 - ep
+        }
+        
+        return Matrix4x4(
+            r00, 0,   0,   0,
+            0,   r11, 0,   0,
+            0,   0,   r22, 1,
+            0,   0,   r32, 0
+        )
+        
+    }
+
+    public static func infinitePerspectiveRH
+        (_ fovy:Double, _ aspect:Double, _ zNear:Double, _ ep:Double = 0) -> Matrix4x4<Double>
+    {
+        let range = tan(fovy / 2) * zNear
+        let left = -range * aspect
+        let right = range * aspect
+        let bottom = -range
+        let top = range;
+
+        let r00 = (2 * zNear) / (right - left)
+        let r11 = (2 * zNear) / (top - bottom)
+        let r32 = ep - (2 * zNear)
+
+        let r22 : Double
+        if ep == 0 {
+            r22 = -0x1.fffffffffffffp-1
+
         } else {
             r22 = ep - 1
         }
 
-        return Matrix4x4<T>(
+        return Matrix4x4(
             r00, 0,   0,   0,
             0,   r11, 0,   0,
             0,   0,   r22, -1,
             0,   0,   r32, 0
         )
-
+    }
+    
+    public static func infinitePerspectiveRH
+        (_ fovy:Float, _ aspect:Float, _ zNear:Float, _ ep:Float = 0) -> Matrix4x4<Float>
+    {
+        let range = tanf(fovy / 2) * zNear
+        let left = -range * aspect
+        let right = range * aspect
+        let bottom = -range
+        let top = range;
+        
+        let r00 = (2 * zNear) / (right - left)
+        let r11 = (2 * zNear) / (top - bottom)
+        let r32 = ep - (2 * zNear)
+        
+        let r22 : Float
+        if ep == 0 {
+            r22 = -0x1.fffffep-1
+        } else {
+            r22 = ep - 1
+        }
+        
+        return Matrix4x4(
+            r00, 0,   0,   0,
+            0,   r11, 0,   0,
+            0,   0,   r22, -1,
+            0,   0,   r32, 0
+        )
     }
 
 
