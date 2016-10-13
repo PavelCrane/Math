@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E98126F31DA5E86600BE49F1 /* glsl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E98126F21DA5E86600BE49F1 /* glsl.swift */; };
 		E98126F51DA5E87B00BE49F1 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = E98126F41DA5E87B00BE49F1 /* Operators.swift */; };
+		E98127091DA6E3CB00BE49F1 /* Complex.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/Complex.swift /* Complex.swift */; };
 		__src_cc_ref_Sources/Internal.swift /* Internal.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/Internal.swift /* Internal.swift */; };
 		__src_cc_ref_Sources/Matrix2x2.swift /* Matrix2x2.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/Matrix2x2.swift /* Matrix2x2.swift */; };
 		__src_cc_ref_Sources/Matrix2x3.swift /* Matrix2x3.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/Matrix2x3.swift /* Matrix2x3.swift */; };
@@ -199,6 +200,7 @@
 				__src_cc_ref_Sources/glm.swift /* glm.swift in Sources */,
 				__src_cc_ref_Sources/Internal.swift /* Internal.swift in Sources */,
 				__src_cc_ref_Sources/Matrix2x2.swift /* Matrix2x2.swift in Sources */,
+				E98127091DA6E3CB00BE49F1 /* Complex.swift in Sources */,
 				__src_cc_ref_Sources/Matrix2x3.swift /* Matrix2x3.swift in Sources */,
 				__src_cc_ref_Sources/Matrix2x4.swift /* Matrix2x4.swift in Sources */,
 				__src_cc_ref_Sources/Matrix3x2.swift /* Matrix3x2.swift in Sources */,
